@@ -25,17 +25,22 @@ def transpose(workbook,fileName):
     wb.save(fileName)
 
 
-def createFile(workbook):
-    outfile = Workbook()
+def copyToFile(workbook,filename):
+    outfile = Workbook() # Creo un nuovo file in cui andare a salvare i dati
     outWS = outfile.active
+    
     wb = load_workbook(workbook)
     ws = wb.active
     cell_range = ws.calculate_dimension()
     range_to_copy = ws[cell_range]
-    for row in cell_range:
-        cell_list = []
+    cell_list = []
+    for row in range_to_copy:
         for cell in row:
-            cell_list.append(cell.value)
-    print(cell_list)
-    #outWS.append(cell_list)
-    #outfile.save("out.xlsx")
+            cell_list.append(cell)
+    
+    for cell in cell_list:
+        col = cell.column_letter
+        row = cell.row
+        outWS[f"{col}{row}"] = cell.value
+        outfile.save("out.xlsx")
+

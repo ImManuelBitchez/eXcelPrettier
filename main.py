@@ -32,5 +32,5 @@ else:
     
  
     transpose(workbook=outfile,fileName=outfile)
-    createFile(outfile)
+    copyToFile(outfile,filename=outfile)
   
