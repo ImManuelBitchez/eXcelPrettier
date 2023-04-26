@@ -5,32 +5,27 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.utils import get_column_letter
 from pathlib import Path
 from functions.ExcelModules import *
-
-projectFolder = Path("C:/Users/manue/Documents/Stellantis/Python/AWS/")
+from platform import *
+from functions.setup import init
+projectFolder = Path(os.getcwd())
 module_path = Path(f"{projectFolder}\modules\Modulo1.bas")
 
-if(1==2): #len(sys.argv) <= 1
+
+
+if(len(sys.argv) <= 1): 
     print("No csv file founded!")
     print("Please insert at least one file")
     os._exit(1)
 else:
     try:
+        env_info = init()   
         baseFile = sys.argv[1]
-        fileName = formatName(sys.argv[1])
-        outfile = f"{projectFolder}\\files\\{fileName}.xlsx"
-
-        excel = win32com.client.Dispatch('Excel.Application')
-        wb = excel.Workbooks.Open(baseFile)
-        wb.VBProject.VBComponents.Import(module_path)
-        excel.Application.Run("FormatCSV")
-        wb.SaveAs(outfile,51)
-        excel.Quit()
-        print("Macro ran succesfully!")
-
+        convertToExcel(baseFile,env_info)
     except Exception as e:
         print(e)
     
- 
-    transpose(workbook=outfile,fileName=outfile)
-    copyToFile(outfile,filename=outfile)
+    fileList = [f"{projectFolder}\\files\\aws.xlsx",f"{projectFolder}\\files\\marketplace.xlsx",f"{projectFolder}\\files\\refund.xlsx",f"{projectFolder}\\files\\tax.xlsx"]
+    #initWorkbook()
+    #copyToFile(outfile,filename=outfile)
+    #createFile(outfile,fileList)
   
